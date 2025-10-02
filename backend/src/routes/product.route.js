@@ -1,7 +1,7 @@
 import express from 'express';
 import multer from "multer";
 import path from "node:path";
-import { addProduct, getAllProducts } from '../controllers/product.controller.js';
+import { addProduct, getAllProducts, getProductById } from '../controllers/product.controller.js';
 import { isAuthenticated, isSeller } from '../middlewares/auth.middleware.js';
 
 const router = express.Router();
@@ -13,5 +13,6 @@ const upload = multer({
 
 router.post("", isAuthenticated, isSeller, upload.single("imageURL"), addProduct);
 router.get("", getAllProducts);
+router.get("/:productId", getProductById);
 
 export default router;
