@@ -2,24 +2,26 @@ import jwt from "jsonwebtoken";
 import UserModel from "../models/user.model.js";
 import { config } from "../configs/config.js";
 
-const isAuthenticated = async (req, res, next) => {
+export const isAuthenticated = async (req, res, next) => {
     const token = req.cookies.token;
 
     if (!token) {
         return res.status(401).json({
             success: false,
-            message: "Invalid or expired token"
+            message: "Invalid or expired token",
         });
     }
 
     try {
         const decoded = jwt.verify(token, config.jwtSecret);
-        const user = await UserModel.findById(decoded.id).select("-password -_id -createdAt -updatedAt -__v");
+        const user = await UserModel.findById(decoded.id).select(
+            "-password -_id -createdAt -updatedAt -__v"
+        );
 
         if (!user) {
             return res.status(401).json({
                 success: false,
-                message: "Unauthorized user"
+                message: "Unauthorized user",
             });
         }
         req.user = user; // Attach user info to request object
@@ -27,9 +29,27 @@ const isAuthenticated = async (req, res, next) => {
     } catch (error) {
         return res.status(401).json({
             success: false,
-            message: "Invalid or expired token"
+            message: "Invalid or expired token",
         });
     }
-}
+};
 
-export default isAuthenticated;
+export const isAdmin = (req, res, next) => {
+    if (req.user.role !== "admin") {
+        return res.status(403).json({
+            success: false,
+            message: "Access denied. Admins only.",
+        });
+    }
+    next();
+};
+
+export const isSeller = (req, res, next) => {
+    if (req.user.role !== "seller") {
+        return res.status(403).json({
+            success: false,
+            message: "Access denied. Sellers only.",
+        });
+    }
+    next();
+};
