@@ -188,9 +188,50 @@ export const userLogin = async (req, res) => {
 };
 
 export const profile = async (req, res) => {
-    return res.status(200).json({
-        success: true,
-        message: "User profile fetched successfully",
-        user: req.user // user info is attached to req object in auth middleware
-    });
+    const user = req.user;
+    try {
+
+        if (!user) {
+            return res.status(404).json({
+                success: false,
+                message: "User not found"
+            });
+        }
+
+        return res.status(200).json({
+            success: true,
+            message: "User profile data fetched successfully",
+            user
+        })
+    } catch (error) {
+        console.log("Error in loggedin middleware ", error)
+        return res.status(401).json({
+            success: false,
+            message: "Error while checking logged in",
+            error: error.message
+        })
+    }
 };
+
+export const logutUser = async (req, res) => {
+    try {
+        res.clearCookie("token", {
+            httpOnly: true,
+            secure: config.env === "production",
+            sameSite: config.env === "production" ? "none" : "lax",
+            domain: config.env === "production" ? undefined : undefined
+        });
+
+        return res.status(200).json({
+            success: true,
+            message: "User logged out successfully"
+        });
+    } catch (error) {
+        console.error("Error while logging out user:", error);
+        return res.status(500).json({
+            success: false,
+            message: "Error while logging out user",
+            error: error.message
+        });
+    }
+}
