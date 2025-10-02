@@ -60,3 +60,20 @@ export const addProduct = async (req, res) => {
         });
     }
 }
+
+export const getAllProducts = async (req, res) => {
+    try {
+        const products = await ProductModel.find().populate("seller", "name");
+        res.status(200).json({
+            success: true,
+            message: "Products fetched successfully",
+            data: products
+        });
+    } catch (error) {
+        console.error("Error fetching products:", error);
+        res.status(500).json({
+            success: false,
+            message: "Internal server error",
+        });
+    }
+}
