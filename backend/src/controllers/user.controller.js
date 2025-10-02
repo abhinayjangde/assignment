@@ -113,8 +113,7 @@ export const verifyEmail = async (req, res) => {
             error: error.message
         });
     }
-}
-
+};
 
 export const userLogin = async (req, res) => {
     const { email, password } = req.body;
@@ -186,4 +185,12 @@ export const userLogin = async (req, res) => {
             error: error.message
         });
     }
-}
+};
+
+export const profile = async (req, res) => {
+    return res.status(200).json({
+        success: true,
+        message: "User profile fetched successfully",
+        user: req.user // user info is attached to req object in auth middleware
+    });
+};
