@@ -1,6 +1,7 @@
 import { config } from "../configs/config.js";
 import UserModel from "../models/user.model.js";
 import sendEmail from "../utils/sendMail.js";
+import jwt from "jsonwebtoken";
 
 export const registerUser = async (req, res) => {
     const { name, email, password } = req.body;
@@ -109,6 +110,79 @@ export const verifyEmail = async (req, res) => {
         return res.status(500).json({
             success: false,
             message: "Error while verifying user email",
+            error: error.message
+        });
+    }
+}
+
+
+export const userLogin = async (req, res) => {
+    const { email, password } = req.body;
+
+    // 1. Validate email and password
+    if (!email || !password) {
+        return res.status(400).json({
+            success: false,
+            message: "All fields are required"
+        })
+    }
+
+    try {
+        // 2. find user
+        const user = await UserModel.findOne({ email: email }).select("+password");
+        if (!user) {
+            return res.status(200).json({
+                success: false,
+                message: "User not found, please register first"
+            })
+        }
+        // 3. Checking that user is verified or not
+        if (!user.isVerified) {
+            return res.status(403).json({
+                success: false,
+                message: "Please verify your email"
+            })
+        }
+        // 4. Match password
+        const isMatched = await user.comparePassword(password);
+
+        if (!isMatched) {
+            console.log("Password match status:", isMatched);
+            return res.status(200).json({
+                success: false,
+                message: "Invalid credentials"
+            })
+        }
+
+        // 5. Generate JWT token
+        const token = jwt.sign({ id: user._id, role: user.role }, config.jwtSecret, {
+            expiresIn: "3d"
+        })
+
+        const cookieOptions = {
+            expires: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000), // 3 days
+            httpOnly: true,
+            secure: config.env === "production", // true in production
+            sameSite: config.env === "production" ? "none" : "lax", // Allow cross-site cookies in production
+            domain: config.env === "production" ? undefined : undefined // Let browser handle domain
+        };
+
+        res.cookie("token", token, cookieOptions);
+
+        return res.status(200).json({
+            success: true,
+            message: "User logged in successfully",
+            user: {
+                id: user._id,
+                name: user.name,
+                email: user.email
+            }
+        });
+    } catch (error) {
+        console.error("Error while login :", error);
+        return res.status(500).json({
+            success: false,
+            message: "Error while login user",
             error: error.message
         });
     }
