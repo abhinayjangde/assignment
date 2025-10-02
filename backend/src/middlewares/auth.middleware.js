@@ -15,7 +15,7 @@ export const isAuthenticated = async (req, res, next) => {
     try {
         const decoded = jwt.verify(token, config.jwtSecret);
         const user = await UserModel.findById(decoded.id).select(
-            "-password -_id -createdAt -updatedAt -__v"
+            "-password -createdAt -updatedAt -__v"
         );
 
         if (!user) {
