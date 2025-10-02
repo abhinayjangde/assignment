@@ -85,6 +85,6 @@ userSchema.methods.generatePasswordResetToken = async function () {
     return token;
 }
 
-const User = mongoose.model("User", userSchema);
+const UserModel = mongoose.model("User", userSchema);
 
-export default User;
+export default UserModel;
