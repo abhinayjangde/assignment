@@ -12,7 +12,16 @@ const _config = {
         apiKey: process.env.CLOUDINARY_API_KEY,
         apiSecret: process.env.CLOUDINARY_API_SECRET,
     },
+    baseUrl: process.env.BASE_URL || "http://localhost:9000",
     frontendUrl: process.env.FRONTEND_URL || "http://localhost:5173",
+    mail: {
+        service: process.env.MAIL_SERVICE,
+        host: process.env.MAIL_HOST,
+        port: process.env.MAIL_PORT,
+        user: process.env.MAIL_USER,
+        pass: process.env.MAIL_PASSWORD,
+    },
+
 }
 
 export const config = Object.freeze(_config);

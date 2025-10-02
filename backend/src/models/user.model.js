@@ -1,3 +1,7 @@
+import mongoose from "mongoose";
+import bcrypt from "bcryptjs";
+import crypto from "crypto";
+
 const userSchema = new mongoose.Schema(
     {
         name: {
@@ -63,6 +67,23 @@ userSchema.pre('save', async function (next) {
     this.password = await bcrypt.hash(this.password, 10);
     next();
 });
+
+userSchema.methods.comparePassword = async function (candidatePassword) {
+    return await bcrypt.compare(candidatePassword, this.password);
+}
+
+userSchema.methods.generateEmailVerificationToken = async function () {
+    const token = crypto.randomBytes(32).toString("hex");
+    this.emailVerificationToken = token;
+    this.emailVerificationExpire = Date.now() + 10 * 60 * 60 * 1000; // 10 minutes
+    return token;
+}
+userSchema.methods.generatePasswordResetToken = async function () {
+    const token = crypto.randomBytes(32).toString("hex");
+    this.passwordResetToken = token;
+    this.passwordResetExpire = Date.now() + 10 * 60 * 60 * 1000; // 10 minutes
+    return token;
+}
 
 const User = mongoose.model("User", userSchema);
 
