@@ -13,6 +13,13 @@ export const registerUser = async (req, res) => {
         });
     }
 
+    if (password.length < 6) {
+        return res.status(400).json({
+            success: false,
+            message: "Password must be at least 6 characters long",
+        });
+    }
+
     try {
         const existingUser = await UserModel.findOne({ email: email });
         if (existingUser) {
@@ -21,7 +28,6 @@ export const registerUser = async (req, res) => {
                 message: "User already exists",
             });
         }
-
 
         const user = await UserModel.create({
             name,
@@ -40,7 +46,7 @@ export const registerUser = async (req, res) => {
         }
 
         const verificationUrl = `${config.baseUrl}/api/auth/verify/${token}`
-        // 7. Send verification email
+
         const message = `
             Thank you for registering! Please verify your email to complete your registration.
             
@@ -137,6 +143,21 @@ export const userLogin = async (req, res) => {
         }
         // 3. Checking that user is verified or not
         if (!user.isVerified) {
+            const token = await user.generateEmailVerificationToken();
+            await user.save();
+            const verificationUrl = `${config.baseUrl}/api/auth/verify/${token}`
+
+            const message = `
+            Thank you for registering! Please verify your email to complete your registration.
+            
+            ${verificationUrl}
+
+            This verification link will expire in 10 minutes.
+            If you did not create an account, please ignore this email.
+            `;
+
+            await sendEmail(user.email, token, "Please verify your email", message)
+
             return res.status(403).json({
                 success: false,
                 message: "Please verify your email"
