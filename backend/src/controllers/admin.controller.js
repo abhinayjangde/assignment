@@ -23,3 +23,27 @@ export const getAllUsers = async (req, res) => {
         });
     }
 }
+
+export const getAllSellers = async (req, res) => {
+    try {
+        const sellers = await UserModel.find({ role: 'seller' });
+        if (!sellers) {
+            return res.status(404).json({
+                success: false,
+                message: "No sellers found",
+                data: sellers
+            });
+        }
+        return res.status(200).json({
+            success: true,
+            message: "Sellers retrieved successfully",
+            data: sellers
+        });
+    } catch (error) {
+        return res.status(500).json({
+            success: false,
+            message: "Internal server error",
+            error: error.message
+        });
+    }
+}
