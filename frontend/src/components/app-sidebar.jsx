@@ -38,18 +38,23 @@ const data = {
   },
   navMain: [
     {
+      title: "Dashboard",
+      url: "/dashboard",
+      icon: IconFolder,
+    },
+    {
       title: "Users",
-      url: "#",
+      url: "/dashboard/users",
       icon: IconUsers,
     },
     {
       title: "Sellers",
-      url: "#",
+      url: "/dashboard/sellers",
       icon: IconListDetails,
     },
     {
       title: "Payments",
-      url: "#",
+      url: "/dashboard/payments",
       icon: IconChartBar,
     },
   ],
