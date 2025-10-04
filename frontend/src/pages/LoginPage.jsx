@@ -48,7 +48,7 @@ const LoginPage = () => {
                   <div className="text-center text-sm">
                     Don&apos;t have an account?{" "}
                     <Link
-                      to={"/register"}
+                      to={"/auth/register"}
                       className="underline underline-offset-4"
                     >
                       Register
