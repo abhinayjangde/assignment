@@ -37,6 +37,10 @@ const DashboardHeader = ({ title }) => {
     return role ? role.charAt(0).toUpperCase() : "U";
   };
 
+  const getDashboardLink = () => {
+    return role === "admin" ? "/admin" : "/seller";
+  };
+
   return (
     <header className="flex h-(--header-height) shrink-0 items-center gap-2 border-b transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-(--header-height)">
       <div className="flex w-full items-center gap-1 px-4 lg:gap-2 lg:px-6">
@@ -101,7 +105,7 @@ const DashboardHeader = ({ title }) => {
                 </Link>
               </DropdownMenuItem>
               <DropdownMenuItem asChild>
-                <Link to="/dashboard">
+                <Link to={getDashboardLink()}>
                   <User className="mr-2 h-4 w-4" />
                   <span>Dashboard</span>
                 </Link>

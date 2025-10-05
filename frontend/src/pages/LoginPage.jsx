@@ -24,12 +24,28 @@ const LoginPage = () => {
         return;
       }
       toast.success(`Welcome back, ${data.data.user.name}!`);
+
+      // Store token in localStorage
+      localStorage.setItem("token", data.data.token);
+
       setToken(data.data.token);
       setRole(data.data.user.role);
       setIsLoggedIn(true);
 
+      // Role-based redirection
+      const userRole = data.data.user.role;
+      let redirectPath = "/";
+
+      if (userRole === "admin") {
+        redirectPath = "/admin";
+      } else if (userRole === "seller") {
+        redirectPath = "/seller";
+      } else {
+        redirectPath = "/"; // Normal users stay on home page
+      }
+
       setTimeout(() => {
-        navigate("/dashboard");
+        navigate(redirectPath);
         emailRef.current.value = "";
         passwordRef.current.value = "";
       }, 2000);

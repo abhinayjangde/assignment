@@ -16,27 +16,27 @@ import {
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { useQuery } from "@tanstack/react-query";
-import { getPayments } from "@/http/api";
+import { getAllSellers } from "@/http/api";
 import { Skeleton } from "@/components/ui/skeleton";
 
-const PaymentPage = () => {
+const AdminSellerPage = () => {
   const { data, isLoading, isError } = useQuery({
-    queryKey: ["payments"],
-    queryFn: getPayments,
+    queryKey: ["sellers"],
+    queryFn: getAllSellers,
   });
 
-  const payments = data?.data?.data || [];
+  const sellers = data?.data?.data || [];
 
   return (
     <>
-      <DashboardHeader title="Payments Management" />
+      <DashboardHeader title="Sellers Management" />
 
       <div className="p-6">
         <Card>
           <CardHeader>
-            <CardTitle>Payment Details ({payments.length})</CardTitle>
+            <CardTitle>All Sellers ({sellers.length})</CardTitle>
             <CardDescription>
-              View all payment transactions in the system (Mock Data)
+              Manage and view all registered sellers in the system
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -50,57 +50,58 @@ const PaymentPage = () => {
 
             {isError && (
               <p className="text-center text-red-500 py-4">
-                Error loading payments
+                Error loading sellers
               </p>
             )}
 
-            {!isLoading && !isError && payments.length === 0 && (
+            {!isLoading && !isError && sellers.length === 0 && (
               <p className="text-center text-muted-foreground py-4">
-                No payments found
+                No sellers found
               </p>
             )}
 
-            {!isLoading && !isError && payments.length > 0 && (
+            {!isLoading && !isError && sellers.length > 0 && (
               <div className="rounded-md border">
                 <Table>
                   <TableHeader>
                     <TableRow>
-                      <TableHead>Transaction ID</TableHead>
-                      <TableHead>User</TableHead>
-                      <TableHead>Amount</TableHead>
-                      <TableHead>Payment Method</TableHead>
+                      <TableHead>Name</TableHead>
+                      <TableHead>Email</TableHead>
+                      <TableHead>Products</TableHead>
                       <TableHead>Status</TableHead>
-                      <TableHead>Date</TableHead>
+                      <TableHead>Joined Date</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
-                    {payments.map((payment) => (
-                      <TableRow key={payment.id}>
-                        <TableCell className="font-mono text-sm">
-                          #{payment.id}
-                        </TableCell>
+                    {sellers.map((seller) => (
+                      <TableRow key={seller._id}>
                         <TableCell className="font-medium">
-                          {payment.user}
+                          {seller.name}
                         </TableCell>
-                        <TableCell className="font-semibold text-green-600">
-                          ${payment.amount.toFixed(2)}
-                        </TableCell>
-                        <TableCell>{payment.paymentMethod}</TableCell>
+                        <TableCell>{seller.email}</TableCell>
                         <TableCell>
-                          {payment.status === "Completed" ? (
-                            <Badge className="bg-green-500">Completed</Badge>
-                          ) : payment.status === "Pending" ? (
-                            <Badge variant="secondary">Pending</Badge>
+                          <Badge variant="outline">
+                            {seller.productCount || 0} products
+                          </Badge>
+                        </TableCell>
+                        <TableCell>
+                          {seller.isVerified ? (
+                            <Badge variant="success" className="bg-green-500">
+                              Verified
+                            </Badge>
                           ) : (
-                            <Badge variant="destructive">Failed</Badge>
+                            <Badge variant="secondary">Not Verified</Badge>
                           )}
                         </TableCell>
                         <TableCell>
-                          {new Date(payment.date).toLocaleDateString("en-US", {
-                            year: "numeric",
-                            month: "short",
-                            day: "numeric",
-                          })}
+                          {new Date(seller.createdAt).toLocaleDateString(
+                            "en-US",
+                            {
+                              year: "numeric",
+                              month: "short",
+                              day: "numeric",
+                            }
+                          )}
                         </TableCell>
                       </TableRow>
                     ))}
@@ -115,4 +116,4 @@ const PaymentPage = () => {
   );
 };
 
-export default PaymentPage;
+export default AdminSellerPage;

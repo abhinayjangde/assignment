@@ -6,6 +6,7 @@ import DashboardLayout from "./layouts/DashboardLayout";
 import DashboardPage from "./pages/DashboardPage";
 import UserPage from "./pages/UserPage";
 import SellerPage from "./pages/SellerPage";
+import AdminSellerPage from "./pages/AdminSellerPage";
 import PaymentPage from "./pages/PaymentPage";
 import AuthLayout from "./layouts/AuthLayout";
 
@@ -14,8 +15,9 @@ export const router = createBrowserRouter([
     path: "/",
     element: <HomePage />,
   },
+  // Admin Dashboard Routes
   {
-    path: "/dashboard",
+    path: "/admin",
     element: <DashboardLayout />,
     children: [
       {
@@ -28,7 +30,7 @@ export const router = createBrowserRouter([
       },
       {
         path: "sellers",
-        element: <SellerPage />,
+        element: <AdminSellerPage />,
       },
       {
         path: "payments",
@@ -36,6 +38,22 @@ export const router = createBrowserRouter([
       },
     ],
   },
+  // Seller Dashboard Routes
+  {
+    path: "/seller",
+    element: <DashboardLayout />,
+    children: [
+      {
+        path: "",
+        element: <DashboardPage />,
+      },
+      {
+        path: "products",
+        element: <SellerPage />,
+      },
+    ],
+  },
+  // Auth Routes
   {
     path: "/auth",
     element: <AuthLayout />,

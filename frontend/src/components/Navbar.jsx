@@ -32,10 +32,9 @@ const Navbar = () => {
   };
 
   const getDashboardLink = () => {
-    if (role === "admin") return "/dashboard";
-    if (role === "seller") return "/dashboard/sellers";
-    if (role === "user") return "/dashboard/users";
-    return "/";
+    if (role === "admin") return "/admin";
+    if (role === "seller") return "/seller";
+    return "/"; // Normal users don't have a dashboard
   };
 
   const getUserInitials = () => {

@@ -1,19 +1,17 @@
 import UserModel from "../models/user.model.js";
+import ProductModel from "../models/product.model.js";
 
 export const getAllUsers = async (req, res) => {
     try {
-        const users = await UserModel.find({});
-        if (!users) {
-            return res.status(404).json({
-                success: false,
-                message: "No users found",
-                data: users
-            });
-        }
+        const users = await UserModel.find({ role: "user" })
+            .select("-password -emailVerificationToken -passwordResetToken")
+            .sort({ createdAt: -1 });
+
         return res.status(200).json({
             success: true,
             message: "Users retrieved successfully",
-            data: users
+            data: users,
+            count: users.length
         });
     } catch (error) {
         return res.status(500).json({
@@ -26,18 +24,26 @@ export const getAllUsers = async (req, res) => {
 
 export const getAllSellers = async (req, res) => {
     try {
-        const sellers = await UserModel.find({ role: 'seller' });
-        if (!sellers) {
-            return res.status(404).json({
-                success: false,
-                message: "No sellers found",
-                data: sellers
-            });
-        }
+        const sellers = await UserModel.find({ role: 'seller' })
+            .select("-password -emailVerificationToken -passwordResetToken")
+            .sort({ createdAt: -1 });
+
+        // Get product count for each seller
+        const sellersWithProducts = await Promise.all(
+            sellers.map(async (seller) => {
+                const productCount = await ProductModel.countDocuments({ seller: seller._id });
+                return {
+                    ...seller.toObject(),
+                    productCount
+                };
+            })
+        );
+
         return res.status(200).json({
             success: true,
             message: "Sellers retrieved successfully",
-            data: sellers
+            data: sellersWithProducts,
+            count: sellers.length
         });
     } catch (error) {
         return res.status(500).json({
