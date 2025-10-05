@@ -3,7 +3,7 @@ import ProductModel from "../models/product.model.js";
 
 export const getAllUsers = async (req, res) => {
     try {
-        const users = await UserModel.find({ role: "user" })
+        const users = await UserModel.find()
             .select("-password -emailVerificationToken -passwordResetToken")
             .sort({ createdAt: -1 });
 
@@ -81,6 +81,15 @@ export const getPayments = async (req, res) => {
                 date: new Date("2024-01-17"),
                 status: "Pending",
                 paymentMethod: "Debit Card"
+            }
+            ,
+            {
+                id: 4,
+                user: "Abhinay Jangde",
+                amount: 1299.00,
+                date: new Date("2025-01-17"),
+                status: "Completed",
+                paymentMethod: "UPI"
             }
         ];
 
