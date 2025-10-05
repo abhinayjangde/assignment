@@ -1,5 +1,6 @@
 import { useAuthStore } from "@/store";
 import { Navigate, Outlet } from "react-router";
+import Navbar from "@/components/Navbar";
 
 const AuthLayout = () => {
   const { isLoggedIn, role } = useAuthStore((state) => state);
@@ -9,6 +10,7 @@ const AuthLayout = () => {
   }
   return (
     <>
+      <Navbar />
       <Outlet />
     </>
   );

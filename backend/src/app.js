@@ -25,6 +25,6 @@ app.get("/health", (req, res) => {
 
 app.use("/api/auth", userRoutes);
 app.use("/api/product", productRoutes);
-app.use("/api", adminRoutes);
+app.use("/api/admin", adminRoutes);
 
 export default app;
