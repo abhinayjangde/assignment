@@ -3,21 +3,42 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 import { Label } from "@radix-ui/react-label";
+import { useMutation } from "@tanstack/react-query";
 import { useRef } from "react";
 import { Link } from "react-router";
+import { login } from "../http/api";
+import { ToastContainer, toast } from "react-toastify";
 
 const LoginPage = () => {
   const passwordRef = useRef(null);
   const emailRef = useRef(null);
 
+  const mutation = useMutation({
+    mutationFn: login,
+    onSuccess: (data) => {
+      if (!data.data.success) {
+        toast.error(data.data.message || "Login failed");
+        return;
+      }
+      toast.success(`Welcome back, ${data.data.user.name}!`);
+      setTimeout(() => {
+        window.location.href = "/";
+        emailRef.current.value = "";
+        passwordRef.current.value = "";
+      }, 2000);
+    },
+  });
+
   const handleLoginSubmit = (e) => {
     e.preventDefault();
     const email = emailRef.current.value;
     const password = passwordRef.current.value;
-    console.log("Login submitted:", { email, password });
+    mutation.mutate({ email, password });
   };
+
   return (
     <div className="bg-muted flex min-h-svh flex-col items-center justify-center p-6 md:p-10">
+      <ToastContainer />
       <div className="w-full max-w-sm md:max-w-3xl">
         <div className={cn("flex flex-col gap-6")}>
           <Card className="overflow-hidden p-0">
