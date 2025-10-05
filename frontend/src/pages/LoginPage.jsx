@@ -8,6 +8,7 @@ import { useRef } from "react";
 import { Link, useNavigate } from "react-router";
 import { login } from "../http/api";
 import { ToastContainer, toast } from "react-toastify";
+import { LoaderCircle } from "lucide-react";
 
 const LoginPage = () => {
   const passwordRef = useRef(null);
@@ -78,8 +79,15 @@ const LoginPage = () => {
                       required
                     />
                   </div>
-                  <Button type="submit" className="w-full">
-                    Login
+                  <Button
+                    type="submit"
+                    disabled={mutation.isPending}
+                    className="w-full"
+                  >
+                    {mutation.isPending && (
+                      <LoaderCircle className="mr-1 h-4 w-4 animate-spin" />
+                    )}
+                    <span>Login</span>
                   </Button>
 
                   <div className="text-center text-sm">
