@@ -5,14 +5,14 @@ import { cn } from "@/lib/utils";
 import { Label } from "@radix-ui/react-label";
 import { useMutation } from "@tanstack/react-query";
 import { useRef } from "react";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import { login } from "../http/api";
 import { ToastContainer, toast } from "react-toastify";
 
 const LoginPage = () => {
   const passwordRef = useRef(null);
   const emailRef = useRef(null);
-
+  const navigate = useNavigate();
   const mutation = useMutation({
     mutationFn: login,
     onSuccess: (data) => {
@@ -22,7 +22,7 @@ const LoginPage = () => {
       }
       toast.success(`Welcome back, ${data.data.user.name}!`);
       setTimeout(() => {
-        window.location.href = "/";
+        navigate("/dashboard");
         emailRef.current.value = "";
         passwordRef.current.value = "";
       }, 2000);
