@@ -104,9 +104,9 @@ export function AppSidebar({ ...props }) {
       <SidebarContent>
         <NavMain items={navItems} />
       </SidebarContent>
-      <SidebarFooter>
+      {/* <SidebarFooter>
         <NavUser user={{ name: role, email: `${role}@example.com` }} />
-      </SidebarFooter>
+      </SidebarFooter> */}
     </Sidebar>
   );
 }

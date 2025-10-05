@@ -254,4 +254,4 @@ export const logutUser = async (req, res) => {
             error: error.message
         });
     }
-}
+};

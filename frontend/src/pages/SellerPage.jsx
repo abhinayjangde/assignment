@@ -202,7 +202,7 @@ const SellerPage = () => {
                 )}
 
               {!query.isLoading && !query.isError && myProducts.length > 0 && (
-                <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+                <div className="flex flex-wrap -m-4">
                   {myProducts.map((product) => (
                     <ProductCard key={product._id} product={product} />
                   ))}
