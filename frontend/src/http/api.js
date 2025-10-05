@@ -23,3 +23,8 @@ export const profile = async () => {
 export const logout = async () => {
     return api.get("/api/auth/logout");
 }
+
+// fetch all products
+export const products = async () => {
+    return api.get("/api/product");
+}
