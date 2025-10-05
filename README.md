@@ -9,3 +9,21 @@
 7. TailwindCSS for styling
 8. API docs in README
 9. Payment: static mock data only
+
+## Tech Stack
+
+- Backend
+  - Node + Express
+  - MongoDB with mongoose
+  - Cloudinary
+  - JWT based authentication
+  - Nodemailer for Email verification
+- Frontend
+  - React + Vite
+  - TanStack Query
+  - Tailwindcss
+  - Shadcn UI
+  - Axios
+  - Zustand
+
+## Local Development Setup
