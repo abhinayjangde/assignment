@@ -103,7 +103,7 @@ const LoginPage = () => {
               </form>
               <div className="bg-muted relative hidden md:block">
                 <img
-                  src="https://dummyimage.com/300x200"
+                  src="https://avatars.githubusercontent.com/u/64852930?v=4"
                   alt="Image"
                   className="absolute inset-0 h-full w-full object-cover dark:brightness-[0.2] dark:grayscale"
                 />
