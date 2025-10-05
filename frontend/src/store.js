@@ -1,17 +1,14 @@
-import { devtools, persist } from "zustand/middleware";
 import { create } from "zustand";
 
-const useTokenStore = create(
-    devtools(
-        persist(
-            (set) => ({
-                token: null,
-                setToken: (newToken) => set({ token: newToken }),
-                clearToken: () => set({ token: null }),
-            }),
-            { name: "token-store" }
-        )
-    )
+export const useAuthStore = create(
+    (set) => ({
+        isLoggedIn: false,
+        role: "",
+        token: null,
+
+        setToken: (newToken) => set({ token: newToken }),
+        setIsLoggedIn: (newState) => set({ isLoggedIn: newState }),
+        setRole: (newRole) => set({ role: newRole }),
+    })
 );
 
-export default useTokenStore;

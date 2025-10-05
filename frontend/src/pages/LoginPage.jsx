@@ -9,14 +9,13 @@ import { Link, useNavigate } from "react-router";
 import { login } from "../http/api";
 import { ToastContainer, toast } from "react-toastify";
 import { LoaderCircle } from "lucide-react";
-import useTokenStore from "@/store";
+import { useAuthStore } from "@/store";
 
 const LoginPage = () => {
   const passwordRef = useRef(null);
   const emailRef = useRef(null);
   const navigate = useNavigate();
-
-  const setToken = useTokenStore((state) => state.setToken);
+  const { setIsLoggedIn, setRole, setToken } = useAuthStore((state) => state);
   const mutation = useMutation({
     mutationFn: login,
     onSuccess: (data) => {
@@ -26,6 +25,9 @@ const LoginPage = () => {
       }
       toast.success(`Welcome back, ${data.data.user.name}!`);
       setToken(data.data.token);
+      setRole(data.data.user.role);
+      setIsLoggedIn(true);
+
       setTimeout(() => {
         navigate("/dashboard");
         emailRef.current.value = "";

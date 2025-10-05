@@ -1,8 +1,14 @@
 import { AppSidebar } from "@/components/app-sidebar";
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
-import { Outlet } from "react-router";
+import { useAuthStore } from "@/store";
+import { Navigate, Outlet } from "react-router";
 
 const DashboardLayout = () => {
+  const { role } = useAuthStore((state) => state);
+
+  if (!role) {
+    return <Navigate to="/auth/login" replace />;
+  }
   return (
     <SidebarProvider
       style={{
