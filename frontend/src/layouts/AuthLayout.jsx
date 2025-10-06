@@ -6,7 +6,10 @@ const AuthLayout = () => {
   const { isLoggedIn, role } = useAuthStore((state) => state);
 
   if (role === "admin") {
-    return <Navigate to="/dashboard" replace />;
+    return <Navigate to="/admin" replace />;
+  }
+  if (role === "seller") {
+    return <Navigate to="/seller" replace />;
   }
   return (
     <>

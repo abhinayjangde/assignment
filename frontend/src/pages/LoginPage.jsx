@@ -54,8 +54,8 @@ const LoginPage = () => {
 
   const handleLoginSubmit = (e) => {
     e.preventDefault();
-    const email = emailRef.current.value;
-    const password = passwordRef.current.value;
+    const email = emailRef && emailRef.current.value;
+    const password = passwordRef && passwordRef.current.value;
     mutation.mutate({ email, password });
   };
 
