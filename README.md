@@ -47,3 +47,97 @@ Roles & Functionalities:
   - Zustand
 
 ## Local Development Setup
+
+### 1. Prerequisites
+
+- Node.js (LTS)
+- MongoDB (local or Atlas)
+- Cloudinary account (for product images)
+- SMTP-capable email (e.g., Gmail App Password or Mailtrap)
+- Git
+
+### 2. Clone
+
+```
+git clone https://github.com/abhinayjangde/assignment
+cd assignment
+```
+
+### 3. Folder Structure (expected)
+
+```
+/backend
+/frontend
+/README.md
+```
+
+### 4. Backend Setup
+
+```
+cd backend
+cp .env.example .env
+npm install
+```
+
+Run dev:
+
+```
+npm run dev
+```
+
+### 5. Frontend Setup
+
+Open new terminal:
+
+```
+cd frontend
+cp .env.example .env
+npm install
+```
+
+.env (Vite requires VITE\_ prefix):
+
+```
+VITE_BACKEND_URL=http://localhost:5000/api
+```
+
+Run:
+
+```
+npm run dev
+```
+
+### 6. Seeding (in backend directory)
+
+Run seed command to write users and products:
+
+```
+npm run seed
+```
+
+### 7. Default URLs
+
+- Frontend: http://localhost:5173
+- API base: http://localhost:9000/api
+
+### 8. Role Promotion (temp manual)
+
+In Mongo shell / Compass update user document:
+
+```
+{ "role": "admin" } or { "role": "seller" }
+```
+
+### 9. API Documentation (brief)
+
+Auth:
+
+- POST /api/auth/register
+- POST /api/auth/login
+  Products:
+- GET /api/products (user/seller/admin)
+- POST /api/products (seller)
+  Admin:
+- GET /api/admin/users
+- GET /api/admin/sellers
+- GET /api/admin/payments (mock)
