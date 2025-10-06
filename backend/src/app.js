@@ -9,7 +9,7 @@ import { config } from "./configs/config.js";
 const app = express();
 
 app.use(cors({
-    origin: config.frontendUrl, // Adjust this to your frontend URL
+    origin: [config.frontendUrl, "http://localhost:4173"],
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH'],
     allowedHeaders: ['Content-Type', 'Authorization']
