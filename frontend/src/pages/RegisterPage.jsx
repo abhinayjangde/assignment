@@ -25,11 +25,11 @@ const RegisterPage = () => {
         return;
       }
       toast.success(`Welcome aboard, ${data.data.user.name}!`);
+      nameRef.current.value = "";
+      emailRef.current.value = "";
+      passwordRef.current.value = "";
       setTimeout(() => {
         navigate("/auth/login");
-        nameRef.current.value = "";
-        emailRef.current.value = "";
-        passwordRef.current.value = "";
       }, 2000);
     },
   });

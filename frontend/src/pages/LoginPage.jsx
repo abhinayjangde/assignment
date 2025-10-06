@@ -44,10 +44,10 @@ const LoginPage = () => {
         redirectPath = "/"; // Normal users stay on home page
       }
 
+      emailRef.current.value = "";
+      passwordRef.current.value = "";
       setTimeout(() => {
         navigate(redirectPath);
-        emailRef.current.value = "";
-        passwordRef.current.value = "";
       }, 2000);
     },
   });
