@@ -66,3 +66,8 @@ export const getAllSellers = async () => {
 export const getPayments = async () => {
     return api.get("/api/admin/payments");
 }
+
+// get single product details
+export const getSingleProduct = async (id) => {
+    return api.get(`/api/product/${id}`);
+}

@@ -1,8 +1,13 @@
 import React from "react";
+import { Link } from "react-router";
 
 const ProductCard = ({ product }) => {
   return (
-    <div key={product._id} className="border m-2 lg:w-1/4 md:w-1/2 p-4 w-full">
+    <Link
+      to={`/product/${product._id}`}
+      key={product._id}
+      className="border m-2 lg:w-1/4 md:w-1/2 p-4 w-full"
+    >
       <a className="block relative h-48 rounded overflow-hidden">
         <img
           alt="ecommerce"
@@ -21,7 +26,7 @@ const ProductCard = ({ product }) => {
         <p className="mt-1">{product.description}</p>
         <p className="mt-1">Rs. {product.price}</p>
       </div>
-    </div>
+    </Link>
   );
 };
 

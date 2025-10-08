@@ -10,7 +10,7 @@ services:
       - MONGO_INITDB_ROOT_PASSWORD=example
       - MONGO_INITDB_DATABASE=mydatabase
     volumes:
-      - mongo-data:/data/db
+      - mongo_data:/data/db
 volumes:
-  mongo-data:
+  mongo_data:
     driver: local

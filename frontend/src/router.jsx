@@ -9,6 +9,7 @@ import SellerPage from "./pages/SellerPage";
 import AdminSellerPage from "./pages/AdminSellerPage";
 import PaymentPage from "./pages/PaymentPage";
 import AuthLayout from "./layouts/AuthLayout";
+import SingleProductPage from "./pages/SingleProductPage";
 
 export const router = createBrowserRouter([
   {
@@ -67,5 +68,10 @@ export const router = createBrowserRouter([
         element: <RegisterPage />,
       },
     ],
+  },
+  // Single Product Page Route
+  {
+    path: "/product/:id",
+    element: <SingleProductPage />,
   },
 ]);
